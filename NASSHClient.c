@@ -15,27 +15,30 @@
 #include <errno.h>
 
 
-#define NASSHPORT 6666
 
 int main(int argc, char const *argv[])
 {
+    char NASSHP = (char)6666;
     if(argc!=4){
         printf("Usage: %s <option> <address>", argv[0]);
         exit(1);
     }
 
     if(argc==2){
+        exit(1);
         // main server
     }
 
-    int sock, rb; 
-    struct sockaddr_in f, host;
+    int sock; 
+    struct addrinfo f, *host;
 
-    f.sin_family = AF_INET;
-    f.sin_port = NASSHPORT;
-    getaddrinfo(argv[2], NASSHPORT, &f, &host);
+    f.ai_family = AF_INET;
+    f.ai_flags=AI_CANONNAME;
+    f.ai_socktype = SOCK_STREAM;
 
-    if(sock = socket(AF_INET, SOCK_STREAM, 0) == -1){
+    getaddrinfo(argv[2], &NASSHP, &f, &host);
+
+    if((sock = socket(AF_INET, SOCK_STREAM, 0)) == -1){
         perror("Socket Client");
         exit(1);
     }
