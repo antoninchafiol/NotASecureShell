@@ -13,6 +13,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <errno.h>
+#include "chlib/chlib.h"
 
 void * executeCommand(void* args){
     int *sock = (int*)args;
@@ -28,27 +29,13 @@ int main(int argc, char const *argv[])
         printf("Usage : %s \n", argv[0]);
         exit(1);
     }
-    struct sockaddr_in f;
     int sock = 0, ret_bind = 0;
-    memset(&f, 0, sizeof(struct sockaddr_in));
+    sock = prepareTCPServer(5, 6666);
+    
 
-    f.sin_family = AF_INET;
-    f.sin_port = htons(atoi("6666"));
 
-    if((sock = socket(AF_INET, SOCK_STREAM, 0)) == -1){
-        perror("Error socket");
-        exit(1);
-    }
-    if((ret_bind = bind(sock, (struct sockaddr*)&f, sizeof(f)))==-1){
-        perror("Erreur when binding");
-        exit(1);
-    }
 
-    if(listen(sock, 5) ==-1){
-        perror("listen error");
-        exit(1);
-    }
-    printf("Listening.....\n\n");
+
     while (1)
     {
         int cfd;
@@ -57,8 +44,8 @@ int main(int argc, char const *argv[])
             exit(1);
         }
         printf("accepted\n");
-        pthread_t th;
-        pthread_create(&th, NULL, executeCommand, (int *)&cfd);
+        //pthread_t th;
+        //pthread_create(&th, NULL, executeCommand, (int *)&cfd);
     }
     
 
