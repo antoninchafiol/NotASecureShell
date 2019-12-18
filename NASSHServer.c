@@ -29,20 +29,13 @@ int main(int argc, char const *argv[])
         printf("Usage : %s \n", argv[0]);
         exit(1);
     }
-    int sock = 0, ret_bind = 0;
+    int sock = 0;
     sock = prepareTCPServer(5, 6666);
     
-
-
-
-
     while (1)
     {
-        int cfd;
-        if((cfd = accept(sock, NULL, NULL)) == -1){
-            perror("error accept server\n");
-            exit(1);
-        }
+        int cfd = 0;
+        TCPACCEPT(cfd, sock);
         printf("accepted\n");
         //pthread_t th;
         //pthread_create(&th, NULL, executeCommand, (int *)&cfd);
