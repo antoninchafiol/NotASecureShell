@@ -13,25 +13,32 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <errno.h>
-#include "chlib/chlib.h"s
+#include "chlib.h"
+
+#define PORT "6666"
 
 int main(int argc, char const *argv[])
 {
     if(argc!=3){
-        printf("Usage: %s <option> <address>\n", argv[0]);
+        printf("Usage: %s <address> <command> \n", argv[0]);
         exit(1);
     }
 
-    if(argc==2){
-        exit(1);
-        // main server
-    }
+    
 
     int sock = 0; 
-    //HINTS_TCP_CLI(hints)
-    prepareTCPClient(argv[2], 6666);
-
-    send(sock, "ls", 3, 0);
+    sock = prepareTCPClient(argv[1], PORT);
+    printf("%s\n", argv[2]);
+    char cmdsend[1024];
+    char messagerecv[1024];
+    printf("=========================\n");
+    send(sock, argv[2], 1024, 0);
+    printf("Command sent : %s\n", argv[2]);
+    printf("=========================\n");
+    recv(sock, messagerecv, 1024, 0);
+    printf("Response : vvv\n\n");
+    printf("\n%s\n", messagerecv);
+    
 
 
     return 0;
