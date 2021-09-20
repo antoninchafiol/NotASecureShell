@@ -1,2 +1,2 @@
 # NotASecureShell
-A noobie copy of SSH made in C for training network system
+A poor "copy" of SSH made in C for understanding more in network administration and programmation of network based software.
